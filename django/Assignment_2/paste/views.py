@@ -13,14 +13,16 @@ posts = [
 	'content':'pastebin.code(<virus></virus>)',
 	'date_posted':'June 5th, 2020'
 	}
-
 ]
 
 
 
 def home(request):
-	return render(request, 'paste/home.html')
+	context = {
+		'posts': posts
+	}
+	return render(request, 'paste/home.html', context)
 
 def about(request):
-	return render(request, 'paste/about.html')
+	return render(request, 'paste/about.html', {'title':'About'})
 

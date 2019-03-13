@@ -6,6 +6,7 @@ from .models import Post
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+
 def home(request):
 	context = {
 		'posts': Post.objects.all()
@@ -16,22 +17,26 @@ class PostListView(ListView):
 	model = Post
 	template_name = 'paste/home.html'
 	context_object_name = 'posts'
-	ordering = ['-date_posted']
 	paginate_by = 10
+
+	def get_queryset(self):
+		return Post.objects.filter(is_disabled=False).order_by('-date_posted')
+
+
 
 class UserPostListView(ListView):
 	model = Post
 	template_name = 'paste/user_posts.html'
 	context_object_name = 'posts'
-	ordering = ['-date_posted']
 	paginate_by = 4
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))
-		return Post.objects.filter(user=user).order_by('-date_posted')
+		return Post.objects.filter(user=user).filter(is_disabled=False).order_by('-date_posted')
 
 class PostDetailView(DetailView):
 	model = Post
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post

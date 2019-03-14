@@ -10,6 +10,8 @@ class Post(models.Model):
 	date_posted = models.DateTimeField(default=timezone.now) #auto_now=True to update date to last modified
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	is_disabled = models.BooleanField(default=False)
+	expiry_date = models.DateTimeField(null=True, blank=True)
+	private = models.BooleanField(default=False)
 
 
 	def __str__(self):

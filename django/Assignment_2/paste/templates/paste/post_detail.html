@@ -16,6 +16,9 @@
 	    </div>
 	    <h2 class="article-title">{{ object.title }}</h2>
 	    <p class="article-content">{{ object.content }}</p>
+	    {% if post.expiry_date %}
+	    	<small class="text-muted">Expires on {{ object.expiry_date|date:"F j, Y" }}</small>
+	    {% endif %}
 	  </div>
 	</article>
 {% endblock content %}

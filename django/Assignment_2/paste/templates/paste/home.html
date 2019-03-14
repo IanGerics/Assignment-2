@@ -10,6 +10,9 @@
 		    </div>
 		    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
 		    <p class="article-content">{{ post.content }}</p>
+		    {% if post.expiry_date %}
+		    	<small class="text-muted">Expires on {{ post.expiry_date|date:"F j, Y" }}</small>
+		    {% endif %}
 		  </div>
 		</article>
 	{% endfor %}

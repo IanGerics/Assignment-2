@@ -1,9 +1,13 @@
 from django.urls import path
+from django.conf.urls import url
+from django_filters.views import FilterView
+from .filters import PostFilter
 from . import views
 from .views import (
 	PostListView, PostDetailView, 
 	PostCreateView, PostUpdateView, 
-	PostDeleteView, UserPostListView)
+	PostDeleteView, UserPostListView,
+	PostSearchView)
 
 urlpatterns = [
 	path('', PostListView.as_view(), name='paste-home'),
@@ -13,4 +17,7 @@ urlpatterns = [
 	path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
 	path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 	path('user/<str:username>/', UserPostListView.as_view(), name='user-posts'),
+
+	url(r'post/search/', FilterView.as_view(filterset_class=PostFilter,
+        template_name='paste/post_list.html'), name='search'),
 ]

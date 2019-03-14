@@ -30,15 +30,6 @@ class PostListView(ListView):
 	def get_queryset(self):
 		return Post.objects.filter(is_disabled=False).exclude(expiry_date__lte=timezone.now()).order_by('-date_posted')
 
-class PostSearchView(ListView):
-	model = Post
-	template_name = 'paste/search.html'
-	context_object_name = 'posts'
-	paginate_by = 5
-
-	def get_queryset(self):
-		return Post.objects.filter(title__contains='').filter(is_disabled=False).exclude(expiry_date__lte=timezone.now()).order_by('-date_posted')
-
 
 class UserPostListView(ListView):
 	model = Post
@@ -54,7 +45,7 @@ class PostDetailView(DetailView):
 	model = Post
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
 	fields = ['title', 'content', 'expiry_date']
 

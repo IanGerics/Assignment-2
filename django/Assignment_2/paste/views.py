@@ -47,7 +47,13 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
-	fields = ['title', 'content', 'expiry_date']
+	fields = ['title', 'content', 'private', 'permissioned_users', 'expiry_date']
+
+	def share_post(form, username):
+		 
+		temp = form.instance.permissioned_users
+		temp += username
+		return temp.save()
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user
@@ -55,7 +61,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Post
-	fields = ['title', 'content', 'private', 'expiry_date']
+	fields = ['title', 'content', 'private', 'permissioned_users', 'expiry_date']
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user

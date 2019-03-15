@@ -12,10 +12,13 @@ class Post(models.Model):
 	is_disabled = models.BooleanField(default=False)
 	expiry_date = models.DateTimeField(null=True, blank=True)
 	private = models.BooleanField(default=False)
-
+	permissioned_users = models.TextField(blank=True, null=True)
 
 	def __str__(self):
 		return self.title
 
 	def get_absolute_url(self):
 		return reverse('post-detail', kwargs={'pk': self.pk})
+
+
+	

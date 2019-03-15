@@ -2,17 +2,26 @@
 {% load crispy_forms_tags %}
 {% block content %}
 	<div class="content-section">
-		<form method="POST">
+		<form method="POST" >
 			{% csrf_token %}
 			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Code Post</legend>
+				<legend class="border-bottom mb-4">Upload File Post</legend>
 				{{form.title|as_crispy_field}}
 				{{form.content|as_crispy_field}}
 				{{form.private|as_crispy_field}}
+				
+				
+				
 				{{form.permissioned_users|as_crispy_field}}
+
+				<small class="text-muted">
+					Type the name of each user you wish to share with delimited by a space.
+				</small>
+				{{form.expiry_date|as_crispy_field}}
 			</fieldset>
 			<div class="form-group">
 				<button class="btn btn-outline-info" type="submit">Post</button>
+				<a class="btn btn-outline-info" href="{% url 'post-upload' %}">Upload</a>
 			</div>
 		</form>
 	</div>

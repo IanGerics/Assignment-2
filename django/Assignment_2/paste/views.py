@@ -58,6 +58,21 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		return super().form_valid(form)
+	
+class PostUploadView(LoginRequiredMixin, CreateView):
+	model = Post
+	template_name = "paste/upload_post_form.html"
+	fields = ['title', 'content', 'private', 'permissioned_users', 'expiry_date']
+
+	def share_post(form, username):
+		 
+		temp = form.instance.permissioned_users
+		temp += username
+		return temp.save()
+
+	def form_valid(self, form):
+		form.instance.user = self.request.user
+		return super().form_valid(form)
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Post
@@ -85,3 +100,5 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
 	return render(request, 'paste/about.html', {'title':'About'})
+
+
